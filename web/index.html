@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>大清幕僚 · Vic3 存档顾问</title>
+  <link rel="stylesheet" href="/static/app.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="seal">清</span>
+      <div>
+        <h1>幕僚处</h1>
+        <p class="sub" id="save-line">正在读取存档…</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="auto">
+        <input type="checkbox" id="auto-refresh" checked />
+        自动刷新
+        <select id="refresh-sec" aria-label="刷新间隔">
+          <option value="10">10秒</option>
+          <option value="20" selected>20秒</option>
+          <option value="30">30秒</option>
+          <option value="60">60秒</option>
+        </select>
+      </label>
+      <button type="button" id="btn-refresh" class="btn">手动刷新</button>
+      <button type="button" id="btn-settings" class="btn ghost">模型设置</button>
+    </div>
+  </header>
+
+  <div class="progress-wrap" id="progress-wrap" hidden>
+    <div class="progress-meta">
+      <span id="progress-label">正在读取存档…</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="meta-row" id="meta-row"></section>
+
+  <main class="workspace">
+    <section class="panel chat-panel">
+      <div class="panel-head">
+        <h2>对话</h2>
+        <span class="hint" id="chat-hint">说明你的意图：备战、改革、搞钱、还是活过这一年</span>
+      </div>
+      <div class="starters" id="starters">
+        <button type="button" data-q="我现在最该做什么？按优先级说。">现在最该做什么</button>
+        <button type="button" data-q="我想先把经济理顺，暂时不主动开战。按这个意图排动作。">先搞经济</button>
+        <button type="button" data-q="我担心英国和鸦片，帮我做备战清单，同时别把内地掏空。">备战英国</button>
+        <button type="button" data-q="乡绅太强，我想改革又怕炸。给我一条能过的法案路径。">改革但不炸</button>
+      </div>
+      <div class="messages" id="messages"></div>
+      <form class="composer" id="composer">
+        <textarea id="input" rows="2" placeholder="直接说你想怎么玩，例如：先盖建筑部门，鸦片来了再打。"></textarea>
+        <button type="submit" class="btn primary" id="btn-send">问幕僚</button>
+      </form>
+    </section>
+
+    <section class="panel board-panel">
+      <div class="panel-head">
+        <h2>建议动作</h2>
+        <span class="hint" id="board-hint">先由存档启发式填充，对话后由顾问改写</span>
+      </div>
+      <p class="intent" id="intent" hidden></p>
+      <div class="filters" id="prio-filters">
+        <button type="button" class="on" data-prio="all">全部</button>
+        <button type="button" data-prio="now">立刻</button>
+        <button type="button" data-prio="year">这一年</button>
+        <button type="button" data-prio="mid">中期</button>
+      </div>
+      <div class="board" id="board"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <dialog id="settings">
+    <form method="dialog" class="settings-form" id="settings-form">
+      <h2>OpenAI 协议接入</h2>
+      <p class="hint">自定义 OpenAI 协议的 base URL、API Key、模型名。也可写在项目根目录 `.env`。</p>
+      <label>Base URL
+        <input name="base_url" id="cfg-base" autocomplete="off" />
+      </label>
+      <label>API Key
+        <input name="api_key" id="cfg-key" type="password" autocomplete="off" placeholder="不改则保留已保存的 key" />
+      </label>
+      <label>Model
+        <input name="model" id="cfg-model" list="model-list" />
+        <datalist id="model-list"></datalist>
+      </label>
+      <div class="dialog-actions">
+        <button type="button" class="btn ghost" id="btn-load-models">拉取模型列表</button>
+        <button type="button" class="btn ghost" id="btn-close-settings">取消</button>
+        <button type="button" class="btn primary" id="btn-save-settings">保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
