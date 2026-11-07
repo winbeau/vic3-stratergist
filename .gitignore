@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+.cache/
+*.egg-info/
+dist/
+build/
+.DS_Store
+*_melted.v3
+.pytest_cache/
+.env
+.env.local
+.env.*
+!.env.example
+web-settings.json
